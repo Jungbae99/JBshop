@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Delete Member</h1>
+<form method="post" action="/deleteMember">
+    <input type="hidden" name="memberId" value="${member.id}">
+    <label for="password">Current Password:</label>
+    <input type="password" id="password" name="password">
+    <button type="submit">Delete</button>
+    <button><a href="/main">Back to Main</a></button>
+
+</form>
+</body>
+</html>

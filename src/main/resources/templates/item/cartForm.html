@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cart</title>
+</head>
+<body>
+    <h1>장바구니 담기</h1>
+    <p>NAME: <span th:text="${item.itemName}"></span></p>
+    <p>TEXT: <span th:text="${item.itemText}"></span></p>
+    <p>PRICE: <span th:text="${item.itemPrice}"></span></p>
+    <p>SAVES VOLUME: <span th:text="${item.itemCount}"></span></p>
+    <p>STOCK: <span th:text="${item.itemStock}"></span></p>
+    <p>IMAGE: <img th:src="'data:image/png;base64,' + ${item.itemImg}" height="100" width="100"/></p>
+
+
+    <form action="/user/cartOrder" method="post">
+        <input type="hidden" name="itemId" th:value="${item.id}">
+
+        <label for="quantity">구매 수량:</label>
+        <input type="number" id="quantity" name="quantity" min="1" required><br><br>
+
+        <input type="submit" value="장바구니에 담기">
+    </form>
+
+
+</body>
+</html>

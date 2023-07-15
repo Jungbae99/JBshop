@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h1>Member Detail</h1>
+        <p>Email: <span th:text="${member.email}"></span></p>
+        <p>Username: <span th:text="${member.username}"></span></p>
+        <p>Phone Number: <span th:text="${
+        member.phoneNumber}"></span></p>
+        <p>Address: <span th:text="${member.address.city}"></span></p>
+        <p>Address: <span th:text="${member.address.street}"></span></p>
+        <p>Address: <span th:text="${member.address.zipcode}"></span></p>
+        <p>Grade: <span th:text="${member.grade}"></span></p>
+        <p>Created At: <span th:text="${#temporals.format(member.createdAt, 'yyyy-MM-dd HH:mm')}"></span></p>
+
+<!-- 버튼 -->
+<button><a href="/main">Back to Main</a></button>
+<button><a href="/memberUpdate">Edit Member</a></button>
+<button onclick="confirmDelete()">Delete Member</button>
+
+
+    <script>
+        function confirmDelete() {
+            if (confirm("회원을 탈퇴하시겠습니까?")) {
+                window.location.href = "/confirmDelete";
+            }
+        }
+    </script>
+</body>
+</html>

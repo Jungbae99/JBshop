@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h1>Item Detail</h1>
+        <p>NAME: <span th:text="${item.itemName}"></span></p>
+        <p>TEXT: <span th:text="${item.itemText}"></span></p>
+        <p>PRICE: <span th:text="${item.itemPrice}"></span></p>
+        <p>SAVES VOLUME: <span th:text="${item.itemCount}"></span></p>
+        <p>STOCK: <span th:text="${item.itemStock}"></span></p>
+        <p>IMAGE: <img th:src="'data:image/png;base64,' + ${item.itemImg}" height="100" width="100"/></p>
+
+
+    <a th:if="${session.memberId != null && session.memberId == 1}" th:href="@{/admin/updateItem(itemId=${item.id})}"
+       class="admin-button"><button>상품 수정</button></a>
+    <a href="/main"><button>처음으로</button></a>
+
+    <a th:href="@{/user/directOrder(itemId=${item.id})}"><button>바로 구매하기</button></a>
+    <a th:href="@{/user/cartOrder(itemId=${item.id})}"><button>장바구니 담기</button></a>
+
+
+</body>
+</html>

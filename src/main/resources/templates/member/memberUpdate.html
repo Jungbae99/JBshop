@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h1>Member Update</h1>
+
+    <form method="post" action="/memberUpdate">
+        <input type="hidden" name="email" th:value="${member.email}" />
+
+        <input type="hidden" name="username" th:value="${member.username}"/>
+
+        <input type="hidden" name="grade" th:value="${member.grade}"/><br>
+
+        <label for="phoneNumber">Phone Number:</label>
+        <input type="text" id="phoneNumber" name="phoneNumber" th:value="${member.phoneNumber}" required /><br>
+
+        <label for="city">city:</label>
+        <input type="text" id="city" name="city" th:value="${member.address?.city}" required /><br>
+
+        <label for="street">street:</label>
+        <input type="text" id="street" name="street" th:value="${member.address?.street}" required /><br>
+
+        <label for="zipcode">zipcode:</label>
+        <input type="text" id="zipcode" name="zipcode" th:value="${member.address?.zipcode}" required /><br>
+
+        <button type="submit">Update</button>
+    </form>
+
+    <button><a href="/main">Back to Main</a></button>
+    <button><a href="/memberDetail">Back to Member Detail</a></button>
+</body>
+</html>

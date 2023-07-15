@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Cart List</title>
+</head>
+<body>
+<h1>장바구니목록</h1>
+<table>
+    <thead>
+    <tr>
+        <th>No. </th>
+        <th>수량</th>
+        <th>상품명</th>
+        <th>개당 가격</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="cartItem : ${cartItems.cartItems}">
+        <td th:text="${cartItem.getId()}"></td>
+        <td th:text="${cartItem.getQuantity()}"></td>
+        <td th:text="${cartItem.getName()}"></td>
+        <td th:text="${cartItem.getPrice()}"></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

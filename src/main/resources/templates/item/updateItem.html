@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Update Item</h1>
+
+<form action="/admin/updateItem" method="post">
+    <input type="hidden" name="itemId" th:value="${item.getId()}">
+
+    <div>
+        <label for="itemName">Item Name:</label>
+        <input type="text" id="itemName" name="itemName" th:value="${item.getItemName()}" required>
+    </div>
+
+    <div>
+        <label for="itemText">Item Text:</label>
+        <input type="text" id="itemText" name="itemText" th:value="${item.getItemText()}" required>
+    </div>
+
+    <div>
+        <label for="itemPrice">Item Price:</label>
+        <input type="text" id="itemPrice" name="itemPrice" th:value="${item.getItemPrice()}" required>
+    </div>
+
+    <div>
+        <label for="itemStock">Stock:</label>
+        <input type="text" id="itemStock" name="itemStock" th:value="${item.getItemStock()}" required>
+    </div>
+
+    <button type="submit">수정</button>
+    <a href="/main"><button>처음으로</button></a>
+</form>
+
+<input type="hidden" id="itemId" th:value="${item.getId()}"/>
+<button onclick="confirmDelete()">삭제하기</button>
+
+<script>
+    function confirmDelete() {
+        var itemId = document.getElementById('itemId').value;
+        if (confirm("상품을 삭제하시겠습니까?")) {
+            window.location.href = "/admin/deleteItem?itemId=" + itemId;
+        }
+    }
+</script>
+
+
+</body>
+</html>

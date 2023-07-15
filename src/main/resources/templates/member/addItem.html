@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<title>Add Item</title>
+<h1>Add Item</h1>
+<form action="/admin/addItem" method="post" enctype="multipart/form-data">
+    <div>
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name">
+    </div>
+    <div>
+        <label for="text">Text:</label>
+        <textarea id="text" name="text"></textarea>
+    </div>
+    <div>
+        <label for="price">Price:</label>
+        <input type="number" id="price" name="price">
+    </div>
+    <div>
+        <label for="stock">Stock:</label>
+        <input type="number" id="stock" name="stock">
+    </div>
+    <div>
+        <label for="imageFile">Image File:</label>
+        <input type="file" id="imageFile" name="imageFile">
+    </div>
+    <div>
+        <button type="submit">Add Item</button>
+    </div>
+    <label for="category">Category:</label>
+    <select id="category" name="category">
+        <option value="NEW">NEW</option>
+        <option value="DRESS">DRESS</option>
+        <option value="OUTER">OUTER</option>
+        <option value="BLOUSE">BLOUSE</option>
+        <option value="TEE">TEE</option>
+        <option value="KNIT">KNIT</option>
+        <option value="BOTTOM">BOTTOM</option>
+        <option value="SHOES">SHOES</option>
+        <option value="ACC">ACC</option>
+        <option value="CRUISE">CRUISE</option>
+        <option value="SALE">SALE</option>
+        <option value="CELEBRITY">CELEBRITY</option>
+    </select>
+    <button><a href="/main">Back to Main</a></button>
+
+</form>
+</body>
+</html>

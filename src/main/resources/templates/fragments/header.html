@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    .header {
+      background-color: #f5f5f5;
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .categories {
+      display: flex;
+    }
+
+    .category {
+      margin-right: 10px;
+    }
+
+    .login {
+      text-decoration: none;
+      color: #000;
+      margin-right: 10px;
+    }
+
+    .logout {
+      text-decoration: none;
+      color: #000;
+    }
+  </style>
+</head>
+<body>
+<div class="header">
+  <div class="logo">Shopping Mall</div>
+  <div class="categories">
+    <div class="category">New</div>
+    <div class="category">Dress</div>
+    <div class="category">Outer</div>
+    <div class="category">Blouse</div>
+    <div class="category">Tee</div>
+    <div class="category">Knit</div>
+    <div class="category">Bottom</div>
+    <div class="category">Shoes</div>
+    <div class="category">Bag</div>
+    <div class="category">Acc</div>
+    <div class="category">Cruise</div>
+    <div class="category">Sale</div>
+    <div class="category">Celebrity</div>
+  </div>
+  <div class="user">
+    <a th:if="${session.userAuthor == null}" href="/join">Join</a> &nbsp
+    <a th:if="${session.userAuthor == null}" href="/login">Login</a>
+    <a th:if="${session.userAuthor != null}" href="http://localhost:8080/loginPage">MyPage</a> &nbsp
+    <a th:if="${session.userAuthor != null}" href="/logout">Logout</a> &nbsp
+    <a th:if="${session.userAuthor != null && session.userAuthor == 'ADMIN'}" href="/admin/addItem"
+       class="admin-button">Add Item</a>
+  </div>
+</div>
+</body>
+</html>
