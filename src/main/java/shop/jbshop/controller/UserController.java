@@ -3,14 +3,14 @@ package shop.jbshop.controller;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.Banner;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import shop.jbshop.dto.request.AddCartRequestDto;
 import shop.jbshop.dto.request.DirectOrderRequestDto;
+import shop.jbshop.dto.response.AllItemResponseDto;
 import shop.jbshop.dto.response.CartResponseDto;
 import shop.jbshop.dto.response.ItemResponseDto;
 import shop.jbshop.service.CartService;
@@ -70,6 +70,30 @@ public class UserController {
         CartResponseDto cartItems = cartService.getCartItems(memberId);
         model.addAttribute("cartItems", cartItems);
         return "/item/cartListForm";
+    }
+
+    @GetMapping("/{category}")
+    public String categorySearch(@PathVariable String category,
+                                 HttpSession session,
+                                 Model model, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "9") int size) {
+        System.out.println(category);
+        Page<AllItemResponseDto> itemsPage = itemService.findItems(PageRequest.of(page, size), category);
+        model.addAttribute("items", itemsPage.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("pageSize", size);
+        model.addAttribute("totalPages", itemsPage.getTotalPages());
+        String message = (String) session.getAttribute("message");
+        if (message != null) {
+            model.addAttribute("message", message);
+            session.removeAttribute("message");
+        }
+        return "/item/category";
+    }
+
+    @PostMapping("/removeCartItem")
+    public String removeCartItem(@RequestParam("itemId") Long itemId) {
+        cartService.removeCartItem(itemId);
+        return "redirect:/user/cart";
     }
 }
 

@@ -2,11 +2,14 @@ package shop.jbshop.controller;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import shop.jbshop.dto.request.MemberLoginRequestDto;
 import shop.jbshop.dto.request.MemberDeleteRequestDto;
 import shop.jbshop.dto.request.MemberDirectCreateRequestDto;
@@ -30,24 +33,34 @@ public class MainController {
         return "main1";
     }
 
+
     @GetMapping("/")
-    public String home1(HttpSession session, Model model) {
+    public String home1(HttpSession session, Model model, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
         session.invalidate();
-        List<AllItemResponseDto> items = itemService.findItems();
-        model.addAttribute("items", items);
+        Page<AllItemResponseDto> itemsPage = itemService.findItems(PageRequest.of(page, size));
+        model.addAttribute("items", itemsPage.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("pageSize", size);
+        model.addAttribute("totalPages", itemsPage.getTotalPages());
         return "main";
     }
 
+
     @GetMapping("/main")
-    public String home2(Model model, HttpSession session) {
-        List<AllItemResponseDto> items = itemService.findItems();
-        model.addAttribute("items", items);
+    public String home2(Model model, HttpSession session, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "9") int size) {
+        Long memberId = (Long) session.getAttribute("memberId");
+        Long cartCount = memberService.findCartCount(memberId);
+        Page<AllItemResponseDto> itemsPage = itemService.findItems(PageRequest.of(page, size));
+        model.addAttribute("items", itemsPage.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("pageSize", size);
+        model.addAttribute("totalPages", itemsPage.getTotalPages());
+        model.addAttribute("cartCount", cartCount);
         String message = (String) session.getAttribute("message");
         if (message != null) {
             model.addAttribute("message", message);
             session.removeAttribute("message");
         }
-
         return "main";
     }
 
@@ -103,7 +116,7 @@ public class MainController {
     @GetMapping("/memberUpdate")
     public String memberUpdate(HttpSession session, Model model) {
 
-        Long memberId = (Long)session.getAttribute("memberId");
+        Long memberId = (Long) session.getAttribute("memberId");
         MemberResponseDto dto = memberService.findMember(memberId);
         model.addAttribute("member", dto);
         return "/member/memberUpdate";
@@ -111,7 +124,7 @@ public class MainController {
 
     @PostMapping("/memberUpdate")
     public String memberUpdate(HttpSession session, MemberUpdateRequestDto updateDto, Model model) {
-        Long memberId = (Long)session.getAttribute("memberId");
+        Long memberId = (Long) session.getAttribute("memberId");
         MemberResponseDto findDto = memberService.findMember(memberId);
 
         memberService.updateMember(findDto.getEmail(), updateDto);
@@ -145,8 +158,6 @@ public class MainController {
             return "redirect:/member/memberDetail";
         }
     }
-
-
 
 
 }

@@ -88,4 +88,8 @@ public class MemberService {
         memberRepository.save(member);
     }
 
+
+    public Long findCartCount(Long memberId) {
+        return memberRepository.findCartCountByIdAndDeletedAtNull(memberId);
+    }
 }

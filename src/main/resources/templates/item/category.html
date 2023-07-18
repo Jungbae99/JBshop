@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+
+<head th:replace="fragments/header :: header">
+
+
+  <link rel="stylesheet" type="text/css" href="/css/style.css" />
+
+
+
+<body>
+<script>
+  function showMessage(message) {
+    alert(message);
+  }
+  window.onload = function() {
+    var message = /*[[${message}]]*/ '';
+    if (message && message.length > 0) {
+      showMessage(message);
+    }
+  }
+</script>
+
+<script th:if="${message}" th:inline="javascript">
+  showMessage([[${message}]]);
+</script>
+
+<div th:replace="fragments/bodyHeader :: bodyHeader" />
+
+
+<h1></h1>
+<br><br><br>
+<div class="container">
+  <div class="row">
+    <!-- 아이템 정보 반복 처리 -->
+    <div class="col-md-4" th:each="item: ${items}">
+      <div class="card mb-4" style="border-top:solid 5px #20c997;">
+        <a th:href="@{/item/detail(itemId=${item.id})}">
+          <img th:src="'data:image/png;base64,' + ${item.itemImg}" class="card-img-top" style="width: 100%; height: 200PX;">
+        </a>
+        <div class="card-body">
+          <p class="card-text" th:text="'상품설명: ' + ${item.itemText}"></p>
+          <p class="card-text" th:text="'가격: ' + ${item.itemPrice}"></p>
+          <p class="card-text" th:text="'판매량: ' + ${item.count}"></p>
+          <p class="card-text" th:text="'재고: ' + ${item.itemStock}"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<nav aria-label="Page navigation example">
+  <ul class="pagination justify-content-center">
+    <li class="page-item" th:class="${currentPage == 0 ? 'disabled' : ''}">
+      <a class="page-link text-success" th:href="@{main(page=0, size=${pageSize})}">First</a>
+    </li>
+    <li class="page-item" th:class="${currentPage == 0 ? 'disabled' : ''}">
+      <a class="page-link text-success" th:href="@{main(page=${currentPage - 1}, size=${pageSize})}">Previous</a>
+    </li>
+
+    <li th:each="pageNumber : ${#numbers.sequence(0, totalPages - 1)}" th:class="${pageNumber == currentPage ? 'page-item active' : 'page-item'}">
+      <a class="page-link text-success" th:href="@{main(page=${pageNumber}, size=${pageSize})}">[[${pageNumber + 1}]]</a>
+    </li>
+
+    <li class="page-item" th:class="${currentPage == totalPages - 1 ? 'disabled' : ''}">
+      <a class="page-link text-success" th:href="@{main(page=${currentPage + 1}, size=${pageSize})}">Next</a>
+    </li>
+    <li class="page-item" th:class="${currentPage == totalPages - 1 ? 'disabled' : ''}">
+      <a class="page-link text-success" th:href="@{main(page=${totalPages - 1}, size=${pageSize})}">Last</a>
+    </li>
+  </ul>
+</nav>
+
+
+
+</body>
+</html>

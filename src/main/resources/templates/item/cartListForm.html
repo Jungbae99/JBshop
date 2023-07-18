@@ -1,26 +1,36 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Cart List</title>
-</head>
+<div th:replace="fragments/header :: header"></div>
+<link rel="stylesheet" type="text/css" href="/css/style.css"/>
+
 <body>
-<h1>장바구니목록</h1>
-<table>
+
+<div th:replace="fragments/bodyHeader :: bodyHeader"></div>
+<br><br>
+<h1>장바구니 목록</h1>
+<br><br>
+<table class="table table-bordered">
     <thead>
     <tr>
-        <th>No. </th>
-        <th>수량</th>
+        <th>No.</th>
         <th>상품명</th>
-        <th>개당 가격</th>
+        <th>가격</th>
+        <th>수량</th>
+        <th>삭제</th>
     </tr>
     </thead>
     <tbody>
-    <tr th:each="cartItem : ${cartItems.cartItems}">
-        <td th:text="${cartItem.getId()}"></td>
-        <td th:text="${cartItem.getQuantity()}"></td>
-        <td th:text="${cartItem.getName()}"></td>
-        <td th:text="${cartItem.getPrice()}"></td>
+    <tr th:each="cartItem, cartItemStatus : ${cartItems.cartItems}">
+        <td th:text="${cartItemStatus.index + 1}"></td>
+        <td th:text="${cartItem.name}"></td>
+        <td th:text="${cartItem.price}"></td>
+        <td th:text="${cartItem.quantity}"></td>
+        <td>
+            <form action="/user/removeCartItem" method="post">
+                <input type="hidden" name="itemId" th:value="${cartItem.id}"/>
+                <button type="submit">X</button>
+            </form>
+        </td>
     </tr>
     </tbody>
 </table>

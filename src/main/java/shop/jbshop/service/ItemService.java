@@ -3,6 +3,9 @@ package shop.jbshop.service;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -14,6 +17,7 @@ import shop.jbshop.dto.request.ItemUpdateRequestDto;
 import shop.jbshop.dto.response.AllItemResponseDto;
 import shop.jbshop.dto.response.ItemResponseDto;
 import shop.jbshop.dto.response.ItemUpdateResponseDto;
+import shop.jbshop.repository.CartRepository;
 import shop.jbshop.repository.ItemImgRepository;
 import shop.jbshop.repository.ItemRepository;
 import shop.jbshop.repository.MemberRepository;
@@ -32,6 +36,7 @@ public class ItemService {
     private final ItemRepository itemRepository;
     private final ItemImgRepository itemImgRepository;
     private final MemberRepository memberRepository;
+    private final CartRepository cartRepository;
 
     /**
      * TODO: test
@@ -94,11 +99,12 @@ public class ItemService {
         return ItemResponseDto.fromEntity(findItem);
     }
 
-    public List<AllItemResponseDto> findItems() {
-        List<Item> findItems = itemRepository.findAll();
-        return AllItemResponseDto.fromEntity(findItems);
+//    TODO
+//    public List<AllItemResponseDto> findItems() {
+//        List<Item> findItems = itemRepository.findAll();
+//        return AllItemResponseDto.fromEntity(findItems);
+//    }
 
-    }
 
     @Transactional
     public Long updateItem(ItemUpdateRequestDto dto) {
@@ -139,6 +145,16 @@ public class ItemService {
         return originalFilename.substring(dotIndex + 1).toLowerCase();
     }
 
+
+    public Page<AllItemResponseDto> findItems(Pageable pageable, String category) {
+        Page<Item> itemPage = itemRepository.findAll(pageable, category);
+        return itemPage.map(item -> AllItemResponseDto.fromEntity(item));
+    }
+
+    public Page<AllItemResponseDto> findItems(Pageable pageable) {
+        Page<Item> itemsPage = itemRepository.findAll(pageable);
+        return itemsPage.map(item -> AllItemResponseDto.fromEntity(item));
+    }
 
 
 }

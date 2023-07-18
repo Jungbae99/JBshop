@@ -46,4 +46,11 @@ public class CartRepository {
 
         return carts.stream().findFirst();
     }
+
+    public void deleteCartItem(Long cartItemId) {
+        em.createQuery("delete from CartItem ci WHERE ci.id = :cartItemId")
+                .setParameter("cartItemId", cartItemId)
+                .executeUpdate();
+    }
+
 }

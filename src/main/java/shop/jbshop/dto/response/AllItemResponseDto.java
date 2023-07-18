@@ -19,20 +19,33 @@ public class AllItemResponseDto {
         private String itemText;
         private String itemImg;
 
-    public static List<AllItemResponseDto> fromEntity(List<Item> findItems) {
-        List<AllItemResponseDto> lists = new ArrayList<>();
+//    public static List<AllItemResponseDto> fromEntity(List<Item> findItems) {
+//        List<AllItemResponseDto> lists = new ArrayList<>();
+//
+//        for (Item findItem : findItems) {
+//            AllItemResponseDto dto = new AllItemResponseDto();
+//            dto.id = findItem.getId();
+//            dto.itemName = findItem.getItemName();
+//            dto.count = findItem.getItemCount();
+//            dto.itemPrice = findItem.getItemPrice();
+//            dto.itemStock = findItem.getItemStock();
+//            dto.itemText = findItem.getItemText();
+//            dto.itemImg = findItem.getImageAsBase64();
+//            lists.add(dto);
+//        }
+//        return lists;
+//    }
 
-        for (Item findItem : findItems) {
-            AllItemResponseDto dto = new AllItemResponseDto();
-            dto.id = findItem.getId();
-            dto.itemName = findItem.getItemName();
-            dto.count = findItem.getItemCount();
-            dto.itemPrice = findItem.getItemPrice();
-            dto.itemStock = findItem.getItemStock();
-            dto.itemText = findItem.getItemText();
-            dto.itemImg = findItem.getImageAsBase64();
-            lists.add(dto);
-        }
-        return lists;
+    public static AllItemResponseDto fromEntity(Item item) {
+        AllItemResponseDto dto = new AllItemResponseDto();
+        dto.id = item.getId();
+        dto.itemName = item.getItemName();
+        dto.count = item.getItemCount();
+        dto.itemPrice = item.getItemPrice();
+        dto.itemStock = item.getItemStock();
+        dto.itemText = item.getItemText();
+        dto.itemImg = item.getImageAsBase64();
+        return dto;
     }
 }
+

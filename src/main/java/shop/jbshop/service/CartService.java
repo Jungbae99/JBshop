@@ -3,7 +3,6 @@ package shop.jbshop.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import shop.jbshop.domain.Delivery;
 import shop.jbshop.domain.cart.Cart;
 import shop.jbshop.domain.cart.CartItem;
 import shop.jbshop.domain.item.Item;
@@ -96,6 +95,11 @@ public class CartService {
         responseDto.setCartItems(cartItemDtos);
         return responseDto;
 
+    }
+
+    @Transactional
+    public void removeCartItem(Long itemId) {
+        cartRepository.deleteCartItem(itemId);
     }
 
 }

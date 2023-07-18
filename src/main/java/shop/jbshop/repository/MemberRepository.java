@@ -15,6 +15,13 @@ public class MemberRepository {
 
     private final EntityManager em;
 
+    public Long findCartCountByIdAndDeletedAtNull(Long memberId) {
+        return (Long) em.createQuery("select count(ci) from Cart c join c.cartItemList ci " +
+                        "where c.member.id =: memberId")
+                .setParameter("memberId", memberId)
+                .getSingleResult();
+    }
+
     public Long save(Member member) {
         em.persist(member);
         return member.getId();
