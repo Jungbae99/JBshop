@@ -24,7 +24,6 @@ public class ItemRepository {
         return item.getId();
     }
 
-
     public Optional<Item> findByIdAndDeletedAtNull(Long itemId) {
         return Optional.ofNullable(em.createQuery("select i from Item i where i.id = :itemId and i.deletedAt is null", Item.class)
                 .setParameter("itemId", itemId)
@@ -38,12 +37,6 @@ public class ItemRepository {
 
     }
 
-    //:TODO BACK UP
-//    public List<Item> findAll() {
-//        return em.createQuery("select i from Item i where i.deletedAt is null", Item.class)
-//                .getResultList();
-//    }
-
     public Page<Item> findAll(Pageable pageable) {
         Long totalItemCount = em.createQuery("select count(i) from Item i where i.deletedAt is null", Long.class)
                 .getSingleResult();
@@ -55,13 +48,8 @@ public class ItemRepository {
         return new PageImpl<>(items, pageable, totalItemCount);
     }
 
-
-
-
-    public Page<Item> findAll(Pageable pageable, String category) {
-        System.out.println(category);
+    public Page<Item> findAllByCate(Pageable pageable, String category) {
         Category findCate = Category.valueOf(category);
-        System.out.println(findCate);
         Long totalItemCount = em.createQuery("select count(i) from Item i where i.deletedAt is null and " +
                         "i.itemCategory =:category", Long.class)
                 .setParameter("category", findCate)
@@ -76,5 +64,19 @@ public class ItemRepository {
     }
 
 
+    public Page<Item> findAllByText(Pageable pageable, String text) {
+        String searchText = "%" + text + "%";
+        Long totalItemCount = em.createQuery("select count(i) from Item i where i.deletedAt is null " +
+                        "and (i.itemName like :searchText or i.itemText like :searchText)", Long.class)
+                .setParameter("searchText", searchText)
+                .getSingleResult();
 
+        List<Item> items = em.createQuery("select i from Item i where i.deletedAt is null " +
+                        "and (i.itemName like :searchText or i.itemText like :searchText)", Item.class)
+                .setParameter("searchText", searchText)
+                .setFirstResult(pageable.getPageNumber() * pageable.getPageSize())
+                .setMaxResults(pageable.getPageSize())
+                .getResultList();
+        return new PageImpl(items, pageable, totalItemCount);
+    }
 }
