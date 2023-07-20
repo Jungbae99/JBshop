@@ -2,37 +2,73 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <div th:replace="fragments/header :: header"></div>
 <link rel="stylesheet" type="text/css" href="/css/style.css"/>
+<style>
+    .table-bordered {
+        width: 80%; /* 테이블의 가로 길이 조정 */
+        margin-left: auto; /* 왼쪽 여백 */
+        margin-right: auto; /* 오른쪽 여백 */
+    }
+
+    .btn btn-success {
+        text-align: center; /* 가운데 정렬 */
+    }
+</style>
 
 <body>
+<div th:replace="fragments/header :: header"></div>
 
-<div th:replace="fragments/bodyHeader :: bodyHeader"></div>
+<div th:replace="fragments/bodyHeader :: bodyHeader"/>
 <br><br>
 <h1>장바구니 목록</h1>
 <br><br>
-<table class="table table-bordered">
-    <thead>
-    <tr>
-        <th>No.</th>
-        <th>상품명</th>
-        <th>가격</th>
-        <th>수량</th>
-        <th>삭제</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="cartItem, cartItemStatus : ${cartItems.cartItems}">
-        <td th:text="${cartItemStatus.index + 1}"></td>
-        <td th:text="${cartItem.name}"></td>
-        <td th:text="${cartItem.price}"></td>
-        <td th:text="${cartItem.quantity}"></td>
-        <td>
-            <form action="/user/removeCartItem" method="post">
-                <input type="hidden" name="itemId" th:value="${cartItem.id}"/>
-                <button type="submit">X</button>
-            </form>
-        </td>
-    </tr>
-    </tbody>
-</table>
+<form id="cartForm" action="/user/cartAction" method="post">
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>상품 선택</th>
+            <th>No.</th>
+            <th>상품명</th>
+            <th>가격</th>
+            <th>수량</th>
+            <th>삭제</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="cartItem, cartItemStatus : ${cartItems.cartItems}">
+            <td>
+                <input type="checkbox" name="itemIds" th:value="${cartItem.itemId}"/>
+            </td>
+            <td th:text="${cartItemStatus.index + 1}"/>
+            <td th:text="${cartItem.name}"/>
+            <td th:text="${cartItem.price}"/>
+            <td>
+                <input type="number" name="itemQuantity" th:value="${cartItem.quantity}"/>
+            </td>
+            <td>
+                <button type="button" class="btn btn-danger" th:onclick="|removeCartItem(${cartItem.itemId})|">X</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <br>
+    <div class="d-grid gap-2 col-6 mx-auto">
+        <div class="d-grid gap-2 col-6 mx-auto">
+            <button class="btn btn-success" type="submit" name="action" value="remove">체크한 상품 삭제</button>
+            <button class="btn btn-success" type="submit" formaction="/user/placeOrder" name="action" value="order">체크한 상품 주문</button>
+        </div>
+    </div>
+</form>
+
+<script>
+    function removeCartItem(itemId) {
+        const form = document.getElementById('cartForm');
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = 'itemIds';
+        input.value = itemId;
+        form.appendChild(input);
+        form.submit();
+    }
+</script>
 </body>
 </html>

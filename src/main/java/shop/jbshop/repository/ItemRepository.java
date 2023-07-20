@@ -32,7 +32,7 @@ public class ItemRepository {
     }
 
     public Optional<List<Item>> findByIdsAndDeletedAtNull(List<Long> itemIds) {
-        return Optional.ofNullable(em.createQuery("select i from Item i where i.id IN :itemIds")
+        return Optional.ofNullable(em.createQuery("select i from Item i where i.id IN :itemIds", Item.class)
                 .setParameter("itemIds", itemIds)
                 .getResultList());
 

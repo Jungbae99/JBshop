@@ -13,7 +13,7 @@ import shop.jbshop.service.ItemService;
 @RequiredArgsConstructor
 @RequestMapping("/item")
 public class ItemController {
-
+    //user, admin 모두 접근할 수 있음
     private final ItemService itemService;
 
     @GetMapping("/detail")
