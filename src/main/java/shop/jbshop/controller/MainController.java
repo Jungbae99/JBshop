@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import shop.jbshop.dto.request.MemberLoginRequestDto;
@@ -63,6 +64,28 @@ public class MainController {
         }
         return "main";
     }
+
+    //카테고리별 이동
+    @GetMapping("/main/{category}")
+    public String categorySearch(@PathVariable String category,
+                                 HttpSession session,
+                                 Model model, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "9") int size) {
+        Long memberId = (Long) session.getAttribute("memberId");
+        Long cartCount = memberService.findCartCount(memberId);
+        Page<AllItemResponseDto> itemsPage = itemService.findItems(PageRequest.of(page, size), category);
+        model.addAttribute("items", itemsPage.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("pageSize", size);
+        model.addAttribute("totalPages", itemsPage.getTotalPages());
+        model.addAttribute("cartCount", cartCount);
+        String message = (String) session.getAttribute("message");
+        if (message != null) {
+            model.addAttribute("message", message);
+            session.removeAttribute("message");
+        }
+        return "/main";
+    }
+
 
     @GetMapping("/join")
     public String join() {
