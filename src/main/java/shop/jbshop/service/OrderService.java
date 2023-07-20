@@ -12,6 +12,7 @@ import shop.jbshop.repository.ItemRepository;
 import shop.jbshop.repository.MemberRepository;
 import shop.jbshop.repository.OrderRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 import static shop.jbshop.domain.Order.createOrder;
@@ -43,6 +44,24 @@ public class OrderService {
     }
 
 
+    @Transactional
+    public void order(Long memberId, List<Long> itemId, List<Integer> count) {
+        Optional<Member> findMember = memberRepository.findByIdAndDeletedAtNull(memberId);
+        Member member = findMember.get();
+        Delivery delivery = Delivery.setAddress(member.getAddress());
 
+        Order order = createOrder(member, delivery);
 
+        for (int i = 0; i < itemId.size(); i++) {
+            Long itemIdValue = itemId.get(i);
+            Integer countValue = count.get(i);
+
+            Optional<Item> findItem = itemRepository.findByIdAndDeletedAtNull(itemIdValue);
+            Item item = findItem.get();
+
+            OrderItem orderItem = OrderItem.createOrderItem(item, item.getItemPrice(), countValue);
+            order.setOrderItem(orderItem);
+        }
+        orderRepository.save(order);
+    }
 }

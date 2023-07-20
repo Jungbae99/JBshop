@@ -27,8 +27,10 @@ public class CartService {
     private final CartRepository cartRepository;
     private final MemberRepository memberRepository;
     private final ItemRepository itemRepository;
-    private final CartItemRepository cartItemRepository;
+//    private final CartItemRepository cartItemRepository;
 
+    
+    //장바구니 생성
     @Transactional
     public Long addCart(AddCartRequestDto dto, Long memberId) {
         Optional<Member> findMember = memberRepository.findByIdAndDeletedAtNull(memberId);
@@ -84,6 +86,7 @@ public class CartService {
 
                 CartItemDto cartItemDto = new CartItemDto(
                         cartItem.getId(),
+                        item.getId(),
                         item.getItemName(),
                         item.getItemPrice(),
                         cartItem.getQuantity()
@@ -97,10 +100,14 @@ public class CartService {
 
     }
 
-    @Transactional
-    public void removeCartItem(Long itemId) {
-        cartRepository.deleteCartItem(itemId);
-    }
+//    @Transactional
+//    public void removeCartItem(Long itemId) {
+//        cartRepository.deleteCartItem(itemId);
+//    }
 
+    @Transactional
+    public void removeCartItems(List<Long> itemIds) {
+        cartRepository.deleteCartItems(itemIds);
+    }
 }
 

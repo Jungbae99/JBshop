@@ -39,18 +39,31 @@ public class CartRepository {
 
     public Optional<Cart> findByMemberId(Long memberId) {
         List<Cart> carts = em.createQuery(
-                        "SELECT c FROM Cart c JOIN FETCH c.cartItemList ci " +
+                        "SELECT c FROM Cart c " +
                                 "WHERE c.member.id = :memberId", Cart.class)
                 .setParameter("memberId", memberId)
                 .getResultList();
 
         return carts.stream().findFirst();
     }
+    
+    //단건 삭제
+//    public void deleteCartItem(Long cartItemId) {
+//        em.createQuery("delete from CartItem ci WHERE ci.id = :cartItemId")
+//                .setParameter("cartItemId", cartItemId)
+//                .executeUpdate();
+//
+//    }
 
-    public void deleteCartItem(Long cartItemId) {
-        em.createQuery("delete from CartItem ci WHERE ci.id = :cartItemId")
-                .setParameter("cartItemId", cartItemId)
+    //한번에 삭제
+    public void deleteCartItems(List<Long> itemIds) {
+        em.createQuery("delete from CartItem ci where ci.item.id in :itemIds")
+                .setParameter("itemIds", itemIds)
                 .executeUpdate();
+        em.flush();
     }
 
+
+
+    
 }
