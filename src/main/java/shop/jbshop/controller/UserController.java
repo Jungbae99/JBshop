@@ -74,26 +74,6 @@ public class UserController {
         return "/item/cartListForm";
     }
 
-    //카테고리별 이동
-    @GetMapping("/{category}")
-    public String categorySearch(@PathVariable String category,
-                                 HttpSession session,
-                                 Model model, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "9") int size) {
-        System.out.println(category);
-        Page<AllItemResponseDto> itemsPage = itemService.findItems(PageRequest.of(page, size), category);
-        model.addAttribute("items", itemsPage.getContent());
-        model.addAttribute("currentPage", page);
-        model.addAttribute("pageSize", size);
-        model.addAttribute("totalPages", itemsPage.getTotalPages());
-        String message = (String) session.getAttribute("message");
-        if (message != null) {
-            model.addAttribute("message", message);
-            session.removeAttribute("message");
-        }
-        return "/item/category";
-    }
-
-
     // 체크한 상품 삭제 처리
     @PostMapping("/cartAction")
     public String removeItems(@RequestParam(value = "itemIds", required = false) List<Long> itemIds) {

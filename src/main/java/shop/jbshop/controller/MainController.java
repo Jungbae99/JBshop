@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import shop.jbshop.dto.request.MemberLoginRequestDto;
@@ -19,6 +20,7 @@ import shop.jbshop.dto.response.MemberResponseDto;
 import shop.jbshop.service.ItemService;
 import shop.jbshop.service.MemberService;
 
+import java.nio.channels.ScatteringByteChannel;
 import java.util.List;
 
 @Controller
@@ -35,7 +37,7 @@ public class MainController {
 
 
     @GetMapping("/")
-    public String home1(HttpSession session, Model model, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+    public String home(HttpSession session, Model model, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
         session.invalidate();
         Page<AllItemResponseDto> itemsPage = itemService.findItems(PageRequest.of(page, size));
         model.addAttribute("items", itemsPage.getContent());
@@ -46,8 +48,12 @@ public class MainController {
     }
 
 
+    // 일반 ITEM 뿌리기
     @GetMapping("/main")
-    public String home2(Model model, HttpSession session, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "9") int size) {
+    public String home(Model model,
+                       HttpSession session,
+                       @RequestParam(defaultValue = "0") int page,
+                       @RequestParam(defaultValue = "9") int size) {
         Long memberId = (Long) session.getAttribute("memberId");
         Long cartCount = memberService.findCartCount(memberId);
         Page<AllItemResponseDto> itemsPage = itemService.findItems(PageRequest.of(page, size));
@@ -63,6 +69,61 @@ public class MainController {
         }
         return "main";
     }
+
+    // 카테고리별 ITEM 뿌리기
+    @GetMapping("/main/{category}")
+    public String categoryHome(@PathVariable String category,
+                               HttpSession session,
+                               Model model,
+                               @RequestParam(defaultValue = "0") int page,
+                               @RequestParam(defaultValue = "9") int size) {
+        System.out.println("cate로온다"+ category);
+        Long memberId = (Long) session.getAttribute("memberId");
+        Long cartCount = memberService.findCartCount(memberId);
+        Page<AllItemResponseDto> itemsPage = itemService.findItems(PageRequest.of(page, size), category);
+        int totalPages = itemsPage.getTotalPages() == 0 ? 1 : itemsPage.getTotalPages();
+        model.addAttribute("items", itemsPage.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("pageSize", size);
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("cartCount", cartCount);
+        String message = (String) session.getAttribute("message");
+        if (message != null) {
+            model.addAttribute("message", message);
+            session.removeAttribute("message");
+        }
+        return "/item/category";
+    }
+
+    @GetMapping("/text")
+    public String searchHome(@RequestParam(name = "searchText") String searchText,
+                             HttpSession session,
+                             Model model,
+                             @RequestParam(defaultValue = "0") int page,
+                             @RequestParam(defaultValue = "9") int size) {
+        System.out.println("text로온다"+searchText);
+        Long memberId = (Long) session.getAttribute("memberId");
+        Long cartCount = memberService.findCartCount(memberId);
+
+        // 카테고리와 검색어로 상품을 검색하고 페이지를 구성합니다.
+        Page<AllItemResponseDto> itemsPage = itemService.searchItems(PageRequest.of(page, size), searchText);
+
+        int totalPages = itemsPage.getTotalPages() == 0 ? 1 : itemsPage.getTotalPages();
+        model.addAttribute("items", itemsPage.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("pageSize", size);
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("cartCount", cartCount);
+        model.addAttribute("searchText", searchText); // 검색어를 뷰로 전달합니다.
+
+        String message = (String) session.getAttribute("message");
+        if (message != null) {
+            model.addAttribute("message", message);
+            session.removeAttribute("message");
+        }
+        return "/item/search";
+    }
+
 
     @GetMapping("/join")
     public String join() {

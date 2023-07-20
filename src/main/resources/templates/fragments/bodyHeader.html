@@ -35,18 +35,18 @@
                             카테고리
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" th:href="@{/user/NEW}">NEW</a></li>
-                            <li><a class="dropdown-item" th:href="@{/user/DRESS}">DRESS</a></li>
-                            <li><a class="dropdown-item" th:href="@{/user/OUTER}">OUTER</a></li>
-                            <li><a class="dropdown-item" th:href="@{/user/BLOUSE}">BLOUSE</a></li>
-                            <li><a class="dropdown-item" th:href="@{/user/TEE}">TEE</a></li>
-                            <li><a class="dropdown-item" th:href="@{/user/KNIT}">KNIT</a></li>
-                            <li><a class="dropdown-item" th:href="@{/user/BOTTOM}">BOTTOM</a></li>
-                            <li><a class="dropdown-item" th:href="@{/user/SHOES}">SHOES</a></li>
-                            <li><a class="dropdown-item" th:href="@{/user/BAG}">BAG</a></li>
-                            <li><a class="dropdown-item" th:href="@{/user/ACC}">ACC</a></li>
-                            <li><a class="dropdown-item" th:href="@{/user/CRUISE}">CRUISE</a></li>
-                            <li><a class="dropdown-item" th:href="@{/user/SALE}">SALE</a></li>
+                            <li><a class="dropdown-item" th:href="@{/main/NEW}">NEW</a></li>
+                            <li><a class="dropdown-item" th:href="@{/main/DRESS}">DRESS</a></li>
+                            <li><a class="dropdown-item" th:href="@{/main/OUTER}">OUTER</a></li>
+                            <li><a class="dropdown-item" th:href="@{/main/BLOUSE}">BLOUSE</a></li>
+                            <li><a class="dropdown-item" th:href="@{/main/TEE}">TEE</a></li>
+                            <li><a class="dropdown-item" th:href="@{/main/KNIT}">KNIT</a></li>
+                            <li><a class="dropdown-item" th:href="@{/main/BOTTOM}">BOTTOM</a></li>
+                            <li><a class="dropdown-item" th:href="@{/main/SHOES}">SHOES</a></li>
+                            <li><a class="dropdown-item" th:href="@{/main/BAG}">BAG</a></li>
+                            <li><a class="dropdown-item" th:href="@{/main/ACC}">ACC</a></li>
+                            <li><a class="dropdown-item" th:href="@{/main/CRUISE}">CRUISE</a></li>
+                            <li><a class="dropdown-item" th:href="@{/main/SALE}">SALE</a></li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
@@ -55,10 +55,15 @@
                     </li>
 
                 </ul>
-                <form class="d-flex" role="search">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+<!--                <form class="d-flex"  role="search" th:action="@{main/text}">-->
+<!--                    <input class="form-control me-2" type="text" placeholder="Search" aria-label="Search" name="text">-->
+<!--                    <button class="btn btn-outline-success" type="submit">Search</button>-->
+<!--                </form>-->
+                <form class="d-flex" role="search" th:action="@{/text}" method="get">
+                    <input class="form-control me-2" type="text" placeholder="Search" aria-label="Search" name="searchText">
                     <button class="btn btn-outline-success" type="submit">Search</button>
                 </form>
+
                 &nbsp;&nbsp;
                 <form action="/user/cart" class="d-flex">
                     <button class="btn btn-outline-success" type="submit">

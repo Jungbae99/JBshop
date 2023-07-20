@@ -146,15 +146,19 @@ public class ItemService {
     }
 
 
-    public Page<AllItemResponseDto> findItems(Pageable pageable, String category) {
-        Page<Item> itemPage = itemRepository.findAll(pageable, category);
-        return itemPage.map(item -> AllItemResponseDto.fromEntity(item));
-    }
-
     public Page<AllItemResponseDto> findItems(Pageable pageable) {
         Page<Item> itemsPage = itemRepository.findAll(pageable);
         return itemsPage.map(item -> AllItemResponseDto.fromEntity(item));
     }
 
+    public Page<AllItemResponseDto> findItems(Pageable pageable, String category) {
+        Page<Item> itemPage = itemRepository.findAllByCate(pageable, category);
+        return itemPage.map(item -> AllItemResponseDto.fromEntity(item));
+    }
 
+
+    public Page<AllItemResponseDto> searchItems(Pageable pageable, String text) {
+        Page<Item> itemPage = itemRepository.findAllByText(pageable, text);
+        return itemPage.map(item -> AllItemResponseDto.fromEntity(item));
+    }
 }
