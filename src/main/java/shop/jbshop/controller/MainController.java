@@ -1,5 +1,7 @@
 package shop.jbshop.controller;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -11,13 +13,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import shop.jbshop.dto.request.MemberLoginRequestDto;
-import shop.jbshop.dto.request.MemberDeleteRequestDto;
-import shop.jbshop.dto.request.MemberDirectCreateRequestDto;
-import shop.jbshop.dto.request.MemberUpdateRequestDto;
+import shop.jbshop.dto.request.*;
 import shop.jbshop.dto.response.AllItemResponseDto;
 import shop.jbshop.dto.response.MemberResponseDto;
 import shop.jbshop.service.ItemService;
+import shop.jbshop.service.KakaoService;
 import shop.jbshop.service.MemberService;
 
 import java.nio.channels.ScatteringByteChannel;
@@ -27,6 +27,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MainController {
 
+    private final KakaoService kakaoService;
     private final MemberService memberService;
     private final ItemService itemService;
 
@@ -37,7 +38,10 @@ public class MainController {
 
 
     @GetMapping("/")
-    public String home(HttpSession session, Model model, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+    public String home(HttpSession session,
+                       Model model,
+                       @RequestParam(defaultValue = "0") int page,
+                       @RequestParam(defaultValue = "9") int size) {
         session.invalidate();
         Page<AllItemResponseDto> itemsPage = itemService.findItems(PageRequest.of(page, size));
         model.addAttribute("items", itemsPage.getContent());
@@ -77,7 +81,7 @@ public class MainController {
                                Model model,
                                @RequestParam(defaultValue = "0") int page,
                                @RequestParam(defaultValue = "9") int size) {
-        System.out.println("cate로온다"+ category);
+        System.out.println("cate로온다" + category);
         Long memberId = (Long) session.getAttribute("memberId");
         Long cartCount = memberService.findCartCount(memberId);
         Page<AllItemResponseDto> itemsPage = itemService.findItems(PageRequest.of(page, size), category);
@@ -101,7 +105,7 @@ public class MainController {
                              Model model,
                              @RequestParam(defaultValue = "0") int page,
                              @RequestParam(defaultValue = "9") int size) {
-        System.out.println("text로온다"+searchText);
+        System.out.println("text로온다" + searchText);
         Long memberId = (Long) session.getAttribute("memberId");
         Long cartCount = memberService.findCartCount(memberId);
 
@@ -217,6 +221,24 @@ public class MainController {
         } else {
             model.addAttribute("message", "비밀번호가 틀립니다");
             return "redirect:/member/memberDetail";
+        }
+    }
+
+    @GetMapping("/kakao/login")
+    public String getKakaoAccount(@RequestParam("code") String code, HttpSession session) throws Exception {
+        String accessToken = kakaoService.getAccessToken(code);
+        KakaoDto dto = kakaoService.getUserInfo(accessToken);
+        MemberResponseDto findMember = memberService.findMemberByEmail(dto.getEmail());
+
+        if (findMember != null) {
+            // 이미 가입된 회원이라면 세션에 회원 ID를 저장하고 메인 페이지로 이동합니다.
+            session.setAttribute("memberId", findMember.getId());
+            return "redirect:/main";
+        } else {
+            // 가입되지 않은 회원이라면 회원가입 페이지로 이동합니다.
+            memberService.joinMemberByOauth(dto);
+            session.setAttribute("oauthEmail", dto.getEmail());
+            return "redirect:/main";
         }
     }
 
