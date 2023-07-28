@@ -105,9 +105,8 @@ public class KakaoService {
             String nickname = properties.getAsJsonObject().get("nickname").getAsString();
 
             System.out.println("email = " + email);
-            System.out.println("nickname = " + nickname);
 
-            kakaoDto = KakaoDto.fromEntity(email, nickname);
+            kakaoDto = KakaoDto.fromEntity(email);
         } catch (Exception e) {
             e.printStackTrace();
         }

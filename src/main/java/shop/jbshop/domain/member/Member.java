@@ -28,6 +28,7 @@ public class Member extends BaseAuditingListener {
     @Column(nullable = false)
     private String email;
 
+    @Column(unique = true)
     private String username;
 
     private String phoneNumber;
@@ -38,7 +39,7 @@ public class Member extends BaseAuditingListener {
     @Embedded
     private Address address;
 
-    @OneToOne(mappedBy = "member", fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Cart cart;
 
     @OneToMany(mappedBy = "member")

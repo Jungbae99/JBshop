@@ -61,4 +61,16 @@ public class MemberRepository {
             return Optional.empty();
         }
     }
+
+    public Optional<Object> findByUsernameAndDeletedAtNull(String username) {
+        try {
+            Member member = em.createQuery("select m from Member m where m.username = :username and m.deletedAt is null", Member.class)
+                    .setParameter("username", username)
+                    .getSingleResult();
+            return Optional.of(member);
+        } catch (NoResultException e) {
+            return Optional.empty();
+        }
+
+    }
 }

@@ -4,10 +4,13 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.Banner;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -135,9 +138,17 @@ public class MainController {
     }
 
     @PostMapping("/join")
-    public String join(@Validated MemberDirectCreateRequestDto dto) {
-        memberService.joinMember(dto);
-        return "redirect:main";
+    public String join(@Validated MemberDirectCreateRequestDto dto, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("dto", dto);
+            return "join";
+        }
+        try {
+            Long memberId = memberService.joinMember(dto);
+            return "redirect:login";
+        } catch (DuplicateKeyException e) {
+            throw e;
+        }
     }
 
 
@@ -159,6 +170,25 @@ public class MainController {
             }
         } else {
             return "redirect:login";
+        }
+    }
+
+    //kakao login
+    @GetMapping("/kakao/login")
+    public String getKakaoAccount(@RequestParam("code") String code, HttpSession session) throws Exception {
+        String accessToken = kakaoService.getAccessToken(code);
+        KakaoDto dto = kakaoService.getUserInfo(accessToken);
+        MemberResponseDto findMember = memberService.findMemberByEmail(dto.getEmail());
+
+        if (findMember != null) {
+            // 이미 가입된 회원이라면 세션에 회원 ID를 저장하고 메인 페이지로 이동합니다.
+            session.setAttribute("memberId", findMember.getId());
+            return "redirect:/main";
+        } else {
+            // 가입되지 않은 회원이라면 회원가입 페이지로 이동합니다.
+            Long memberId = memberService.joinMemberByOauth(dto);
+            session.setAttribute("memberId", memberId);
+            return "redirect:/main";
         }
     }
 
@@ -224,23 +254,7 @@ public class MainController {
         }
     }
 
-    @GetMapping("/kakao/login")
-    public String getKakaoAccount(@RequestParam("code") String code, HttpSession session) throws Exception {
-        String accessToken = kakaoService.getAccessToken(code);
-        KakaoDto dto = kakaoService.getUserInfo(accessToken);
-        MemberResponseDto findMember = memberService.findMemberByEmail(dto.getEmail());
 
-        if (findMember != null) {
-            // 이미 가입된 회원이라면 세션에 회원 ID를 저장하고 메인 페이지로 이동합니다.
-            session.setAttribute("memberId", findMember.getId());
-            return "redirect:/main";
-        } else {
-            // 가입되지 않은 회원이라면 회원가입 페이지로 이동합니다.
-            memberService.joinMemberByOauth(dto);
-            session.setAttribute("oauthEmail", dto.getEmail());
-            return "redirect:/main";
-        }
-    }
 
 
 }

@@ -7,10 +7,9 @@ public class KakaoDto {
     private String email;
     private String username;
 
-    public static KakaoDto fromEntity(String email, String username) {
+    public static KakaoDto fromEntity(String email) {
         KakaoDto dto = new KakaoDto();
         dto.email = email;
-        dto.username = username;
         return dto;
     }
 }

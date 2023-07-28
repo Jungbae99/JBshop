@@ -4,30 +4,60 @@
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
+<head th:replace="fragments/header :: header">
+
+
 <body>
-    <h1>Member Detail</h1>
-        <p>Email: <span th:text="${member.email}"></span></p>
-        <p>Username: <span th:text="${member.username}"></span></p>
-        <p>Phone Number: <span th:text="${
-        member.phoneNumber}"></span></p>
-        <p>Address: <span th:text="${member.address.city}"></span></p>
-        <p>Address: <span th:text="${member.address.street}"></span></p>
-        <p>Address: <span th:text="${member.address.zipcode}"></span></p>
-        <p>Grade: <span th:text="${member.grade}"></span></p>
-        <p>Created At: <span th:text="${#temporals.format(member.createdAt, 'yyyy-MM-dd HH:mm')}"></span></p>
 
+<div th:replace="fragments/bodyHeader :: bodyHeader"/>
+
+
+<h1>Member Detail</h1>
+<div class="mb-3">
+    <label >Email:</label>
+    <span th:text="${#strings.defaultString(member.email, '')}"></span>
+</div>
+<div class="mb-3">
+    <label>Username:</label>
+    <span th:text="${#strings.defaultString(member.username, '')}"></span>
+</div>
+<div class="mb-3">
+    <label>Phone Number:</label>
+    <span th:text="${#strings.defaultString(member.phoneNumber, '')}"></span>
+</div>
+<div class="mb-3">
+    <label>Address:</label>
+    <div class="address-container">
+        <span th:text="${#strings.defaultString(member.address?.city, '')}"></span>,
+        <span th:text="${#strings.defaultString(member.address?.street, '')}"></span>,
+        <span th:text="${#strings.defaultString(member.address?.zipcode, '')}"></span>
+    </div>
+</div>
+<div class="mb-3">
+    <label>Grade:</label>
+    <span th:text="${#strings.defaultString(member.grade, '')}"></span>
+</div>
+<div class="mb-3">
+    <label>Created At:</label>
+    <span th:text="${#strings.defaultString(#temporals.format(member.createdAt, 'yyyy-MM-dd HH:mm'), '')}"></span>
+</div>
 <!-- 버튼 -->
-<button><a href="/main">Back to Main</a></button>
-<button><a href="/memberUpdate">Edit Member</a></button>
-<button onclick="confirmDelete()">Delete Member</button>
+<div class="mb-3">
+    <button><a href="/main">Back to Main</a></button>
+</div>
+<div class="mb-3">
+    <button><a href="/memberUpdate">Edit Member</a></button>
+</div>
+<div class="mb-3">
+    <button onclick="confirmDelete()">Delete Member</button>
+</div>
 
-
-    <script>
-        function confirmDelete() {
-            if (confirm("회원을 탈퇴하시겠습니까?")) {
-                window.location.href = "/confirmDelete";
-            }
+<script>
+    function confirmDelete() {
+        if (confirm("회원을 탈퇴하시겠습니까?")) {
+            window.location.href = "/confirmDelete";
         }
-    </script>
+    }
+</script>
 </body>
 </html>

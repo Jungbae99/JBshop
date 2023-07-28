@@ -1,6 +1,8 @@
 package shop.jbshop.service;
 
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import shop.jbshop.domain.member.Address;
@@ -32,6 +34,10 @@ public class MemberService {
     public Long joinMember(MemberDirectCreateRequestDto dto) {
         Address address = new Address(dto.getCity(), dto.getStreet(), dto.getZipcode());
 
+        validateEmailDuplication(dto.getEmail());
+
+        validateNicknameDuplication(dto.getUsername());
+
         String password = dto.getPassword();
         Member member = Member.builder()
                 .email(dto.getEmail())
@@ -51,9 +57,10 @@ public class MemberService {
      * kakao 회원가입
      */
     public Long joinMemberByOauth(KakaoDto dto) {
+        String randomUsername = RandomStringUtils.randomAlphanumeric(10);
         Member member = Member.builder().
                 email(dto.getEmail()).
-                username(dto.getUsername()).
+                username(randomUsername).
                 oauthType("KAKAO").
                 author(Author.USER).
                 grade(Grade.BASIC).
@@ -101,6 +108,25 @@ public class MemberService {
         } else {
             return null; // 또는 필요에 따라 다른 값을 반환하거나, 예외를 던지도록 처리
         }
+    }
+
+
+    /**
+     * 중복체크 유틸
+     */
+
+    private void validateEmailDuplication(String email) throws DuplicateKeyException {
+        memberRepository.findByEmailAndDeletedAtNull(email)
+                .ifPresent(m -> {
+                    throw new DuplicateKeyException("이미 같은 이메일이 존재합니다.");
+                });
+    }
+
+    private void validateNicknameDuplication(String nickname) throws DuplicateKeyException {
+        memberRepository.findByUsernameAndDeletedAtNull(nickname)
+                .ifPresent(m -> {
+                    throw new DuplicateKeyException("이미 같은 닉네임이 존재합니다.");
+                });
     }
 
     /**
