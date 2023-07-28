@@ -39,7 +39,7 @@ public class Member extends BaseAuditingListener {
     @Embedded
     private Address address;
 
-    @OneToOne(mappedBy = "member", fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Cart cart;
 
     @OneToMany(mappedBy = "member")
@@ -50,9 +50,11 @@ public class Member extends BaseAuditingListener {
 
     private String note;
 
+    @Embedded
+    private Oauth oauth;
 
     @Builder
-    public Member(String email, String password, String username, String phoneNumber, Grade grade, Address address, Author author, String note) {
+    public Member(String email, String password, String username, String phoneNumber, Grade grade, Address address, Author author, String note, String oauthType) {
         this.password = password;
         this.email = email;
         this.username = username;
@@ -61,6 +63,11 @@ public class Member extends BaseAuditingListener {
         this.address = address;
         this.author = author;
         this.note = note;
+        if (oauthType != null) {
+            Oauth oauth = Oauth.createOauth(OauthType.valueOf(oauthType));
+            this.oauth = oauth;
+        }
+
     }
 
     public void updatePhoneNumber(String phoneNumber) {

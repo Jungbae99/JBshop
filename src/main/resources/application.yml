@@ -5,6 +5,11 @@ spring:
     password: 123
     driver-class-name: org.h2.Driver
 
+  servlet:
+    multipart:
+      max-file-size: 10GB
+      max-request-size: 10GB
+
   jpa:
     hibernate:
       ddl-auto: update

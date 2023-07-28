@@ -1,14 +1,13 @@
 package shop.jbshop.controller;
 
+import com.google.gson.JsonObject;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import shop.jbshop.domain.item.Category;
 import shop.jbshop.dto.request.ItemSaveRequestDto;
 import shop.jbshop.dto.request.ItemUpdateRequestDto;
@@ -16,13 +15,16 @@ import shop.jbshop.dto.response.AllItemResponseDto;
 import shop.jbshop.dto.response.ItemResponseDto;
 import shop.jbshop.dto.response.ItemUpdateResponseDto;
 import shop.jbshop.service.ItemService;
+import shop.jbshop.service.KakaoService;
 
+@Slf4j
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/admin")
 public class AdminController {
 
     private final ItemService itemService;
+
 
     @GetMapping("/addItem")
     public String addItem() {
@@ -60,6 +62,9 @@ public class AdminController {
         itemService.deleteItem(itemId);
         return "redirect:/main";
     }
+
+
+
 
 }
 

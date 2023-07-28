@@ -3,39 +3,110 @@
 <head>
     <meta charset="UTF-8">
     <title>Join</title>
+    <head th:replace="fragments/header :: header">
+    <style>
+        /* Center align the form */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            width: 400px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        /* Basic styles for form elements */
+        .form-group {
+            margin-bottom: 10px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        input[type="button"],
+        button {
+            padding: 8px 15px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .btn-info {
+            background-color: #007bff;
+        }
+    </style>
 </head>
+
+
 <body>
-<h2>Join</h2>
-<h3><a href="/main">main</a></h3>
-<form action="/join" method="post">
-    <div>
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required>
-    </div>
-    <div>
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
-    </div>
-    <div>
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required>
-    </div>
-    <div>
-        <label for="phoneNumber">Phone Number:</label>
-        <input type="text" id="phoneNumber" name="phoneNumber">
-    </div>
 
-    <div>
-        <button type="submit">Join</button>
-    </div>
+<div th:if="${errorMessage}" class="alert alert-danger">
+    <p th:text="${errorMessage}"></p>
+</div>
 
-
-    <input type="text" id="zipcode" name="zipcode" placeholder="우편번호">
-    <input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br>
-    <input type="text" id="city" name="city" placeholder="주소"><br>
-    <input type="text" id="street" name="street" placeholder="상세주소">
-    <input type="text" id="note" name="note" placeholder="참고항목">
-
+<div th:replace="fragments/bodyHeader :: bodyHeader" />
+<div class="container">
+    <h2>Join</h2>
+    <h3><a href="/main">main</a></h3>
+    <form class="row g-3" action="/join" method="post">
+        <div class="col-md-6">
+            <label for="email" class="form-label">Email:</label>
+            <input type="email" id="email" name="email" class="form-control" required>
+        </div>
+        <div class="col-md-6">
+            <label for="password" class="form-label">Password:</label>
+            <input type="password" id="password" name="password" class="form-control" required>
+        </div>
+        <div class="col-md-6">
+            <label for="username" class="form-label">Username:</label>
+            <input type="text" id="username" name="username" class="form-control" required>
+        </div>
+        <div class="col-md-6">
+            <label for="phoneNumber" class="form-label">Phone Number:</label>
+            <input type="text" id="phoneNumber" name="phoneNumber" class="form-control">
+        </div>
+        <div class="col-6">
+            <input type="text" id="zipcode" name="zipcode" class="form-control" placeholder="우편번호">
+        </div>
+        <div class="col-6">
+            <input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기" class="btn btn-secondary">
+        </div>
+        <div class="col-12">
+            <label for="city" class="form-label">주소:</label>
+            <input type="text" id="city" name="city" class="form-control" placeholder="주소">
+        </div>
+        <div class="col-12">
+            <label for="street" class="form-label">상세주소:</label>
+            <input type="text" id="street" name="street" class="form-control" placeholder="상세주소">
+        </div>
+        <div class="col-12">
+            <label for="note" class="form-label">참고항목:</label>
+            <input type="text" id="note" name="note" class="form-control" placeholder="참고항목">
+        </div>
+        <div class="col-12">
+            <button type="submit" class="btn btn-info">Join</button>
+        </div>
+    </form>
+</div>
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <script>
         function sample6_execDaumPostcode() {
@@ -86,6 +157,7 @@
             }).open();
         }
     </script>
+
 
 </form>
 </body>

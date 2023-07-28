@@ -50,7 +50,7 @@ public class ItemRepository {
 
     public Page<Item> findAllByCate(Pageable pageable, String category) {
         Category findCate = Category.valueOf(category);
-        Long totalItemCount = em.createQuery("select count(i) from Item i where i.deletedAt is null and " +
+        Long totalItemCount = em.createQuery("select count(i) from Item i where i.deletedAt is null  and " +
                         "i.itemCategory =:category", Long.class)
                 .setParameter("category", findCate)
                 .getSingleResult();
@@ -72,7 +72,7 @@ public class ItemRepository {
                 .getSingleResult();
 
         List<Item> items = em.createQuery("select i from Item i where i.deletedAt is null " +
-                        "and (i.itemName like :searchText or i.itemText like :searchText)", Item.class)
+                        "and (i.itemName like :searchText or i.itemText like :searchText) order by i.id desc", Item.class)
                 .setParameter("searchText", searchText)
                 .setFirstResult(pageable.getPageNumber() * pageable.getPageSize())
                 .setMaxResults(pageable.getPageSize())
