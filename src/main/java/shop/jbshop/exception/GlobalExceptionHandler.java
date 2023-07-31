@@ -17,4 +17,10 @@ public class GlobalExceptionHandler {
         model.addAttribute("errorMessage", e.getMessage());
         return "join";
     }
+
+    @ExceptionHandler(InvalidCredentialsException.class)
+    public String handleInvalidCredentialsException(InvalidCredentialsException e, Model model) {
+        model.addAttribute("errorMessage", e.getMessage());
+        return "login";
+    }
 }
