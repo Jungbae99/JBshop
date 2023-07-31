@@ -1,25 +1,38 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="UTF-8">
-  <title>Title</title>
+<meta charset="UTF-8">
+<title>Log In</title>
+<head th:replace="fragments/header :: header">
 </head>
+
 <body>
-  <h2><a href="/main">main</a></h2>
 
-  <form action="/login" method="post">
-    <label for="email">Email:</label>
-    <input type="email" id="email" name="email" required><br>
+<div th:if="${errorMessage}" class="alert alert-danger">
+    <p th:text="${errorMessage}"></p>
+</div>
 
-    <label for="password">Password:</label>
-    <input type="password" id="password" name="password" required><br>
+<div th:replace="fragments/bodyHeader :: bodyHeader"/>
 
-    <input type="submit" value="Login">
-  </form>
-  <br>
-  <a href="https://kauth.kakao.com/oauth/authorize?client_id=b071731ede6c6ca51d075ca069c77cbf
-&redirect_uri=http://localhost:8080/kakao/login&response_type=code">
-    <img src="/images/kakao.png"></a>
+<div text- class="container row"
+     style="text-align: center; display: flex; justify-content: center; align-items: center; height: 80vh;">
+    <p class="fs-1" style="margin-bottom: -15%; font-family: '돋움'; color: green; ">로그인</p>
+    <form action="/login" method="post">
+        <div class="form-group col-lg-4" style="text-align: center; margin: 0 auto; font-family: 'Arial'; color: green;">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" class="form-control" required>
+        </div>
+        <div class="form-group col-lg-4" style="text-align: center; margin: 0 auto; font-family: 'Arial'; color: green;">
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" class="form-control" required>
+        </div>
+        <br>
+        <button type="submit" class="btn btn-success">Login</button> &nbsp;&nbsp;&nbsp;
+        <a href="https://kauth.kakao.com/oauth/authorize?client_id=b071731ede6c6ca51d075ca069c77cbf&redirect_uri=http://localhost:8080/kakao/login&response_type=code">
+            <img src="/images/kakao.png">
+        </a>
+    </form>
+</div>
+<br>
 
 </body>
 </html>

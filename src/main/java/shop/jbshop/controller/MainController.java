@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import shop.jbshop.dto.request.*;
 import shop.jbshop.dto.response.AllItemResponseDto;
 import shop.jbshop.dto.response.MemberResponseDto;
+import shop.jbshop.exception.InvalidCredentialsException;
 import shop.jbshop.service.ItemService;
 import shop.jbshop.service.KakaoService;
 import shop.jbshop.service.MemberService;
@@ -157,6 +158,22 @@ public class MainController {
         return "login";
     }
 
+//    @PostMapping("/login")
+//    public String login(@Validated MemberLoginRequestDto dto, HttpSession session) {
+//        MemberResponseDto findMember = memberService.findMemberByEmail(dto.getEmail());
+//
+//        if (findMember != null) {
+//            if (findMember.getPassword().equals(dto.getPassword())) {
+//                session.setAttribute("memberId", findMember.getId());
+//                return "redirect:main";
+//            } else {
+//                return "redirect:login";
+//            }
+//        } else {
+//            return "redirect:login";
+//        }
+//    }
+
     @PostMapping("/login")
     public String login(@Validated MemberLoginRequestDto dto, HttpSession session) {
         MemberResponseDto findMember = memberService.findMemberByEmail(dto.getEmail());
@@ -166,10 +183,10 @@ public class MainController {
                 session.setAttribute("memberId", findMember.getId());
                 return "redirect:main";
             } else {
-                return "redirect:login";
+                throw new InvalidCredentialsException(); // 비밀번호가 틀린 경우 예외를 던집니다.
             }
         } else {
-            return "redirect:login";
+            throw new InvalidCredentialsException(); // 존재하는 아이디가 없는 경우 예외를 던집니다.
         }
     }
 

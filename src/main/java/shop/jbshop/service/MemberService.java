@@ -106,7 +106,7 @@ public class MemberService {
         if (optionalMember.isPresent()) {
             return MemberResponseDto.fromEntity(optionalMember.get());
         } else {
-            return null; // 또는 필요에 따라 다른 값을 반환하거나, 예외를 던지도록 처리
+            return null; // 필요에 따라 다른 값을 반환하거나, 예외를 던지도록 처리
         }
     }
 
