@@ -1,55 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+<meta charset="UTF-8">
+<title>Title</title>
 <head th:replace="fragments/header :: header">
-
-
 <body>
-
 <div th:replace="fragments/bodyHeader :: bodyHeader"/>
 
+<br><br>
+<p class="fs-1" style="font-family: '돋움'; text-align: center; color: green; ">회원정보</p>
+<br>
 
-<h1>Member Detail</h1>
-<div class="mb-3">
-    <label >Email:</label>
-    <span th:text="${#strings.defaultString(member.email, '')}"></span>
+<div class="form-group col-lg-4" style="text-align: center; margin: 0 auto; font-family: 'Arial'; color: green;">
+    <label for="email">이메일:</label>
+    <input id="email" class="form-control" style="text-align: center  ;" th:value="${#strings.defaultString(member.email, '')}" readOnly required>
 </div>
-<div class="mb-3">
-    <label>Username:</label>
-    <span th:text="${#strings.defaultString(member.username, '')}"></span>
+<br>
+<div class="form-group col-lg-4" style="text-align: center; margin: 0 auto; font-family: 'Arial'; color: green;">
+    <label for="username">닉네임:</label>
+    <input id="username" class="form-control" style="text-align: center;" th:value="${#strings.defaultString(member.username, '')}" readOnly required>
 </div>
-<div class="mb-3">
-    <label>Phone Number:</label>
-    <span th:text="${#strings.defaultString(member.phoneNumber, '')}"></span>
+<br>
+<div class="form-group col-lg-4 mb-3" style="text-align: center; margin: 0 auto; font-family: 'Arial'; color: green;">
+    <label for="phoneNumber">전화번호:</label>
+    <input type="text" id="phoneNumber" name="phoneNumber" class="form-control" style="text-align: center;" th:value="${#strings.defaultString(member.phoneNumber, '')}" readOnly required>
 </div>
-<div class="mb-3">
-    <label>Address:</label>
+<div class="form-group col-lg-4 mb-3" style="text-align: center; margin: 0 auto; font-family: 'Arial'; color: green;">
     <div class="address-container">
-        <span th:text="${#strings.defaultString(member.address?.city, '')}"></span>,
-        <span th:text="${#strings.defaultString(member.address?.street, '')}"></span>,
-        <span th:text="${#strings.defaultString(member.address?.zipcode, '')}"></span>
+        <label>주소:</label>
+        <input type="text" id="city" name="city" class="form-control" style="text-align: center;" th:value="${#strings.defaultString(member.address?.city, '')}" readOnly required>
+        <br>
+        <label>상세주소:</label>
+        <input type="text" id="street" name="street" class="form-control" style="text-align: center;" th:value="${#strings.defaultString(member.address?.street, '')}" readOnly required>
+        <br>
+        <label>우편번호:</label>
+        <input type="text" id="zipcode" name="zipcode" class="form-control" style="text-align: center;" th:value="${#strings.defaultString(member.address?.zipcode, '')}" readOnly required>
     </div>
 </div>
-<div class="mb-3">
-    <label>Grade:</label>
-    <span th:text="${#strings.defaultString(member.grade, '')}"></span>
+<div class="form-group col-lg-4 mb-3" style="text-align: center; margin: 0 auto; font-family: 'Arial'; color: green;">
+    <label for="grade">등급:</label>
+    <input type="text" id="grade" name="grade" class="form-control" style="text-align: center;" th:value="${#strings.defaultString(member.grade, '')}" readOnly required>
 </div>
-<div class="mb-3">
-    <label>Created At:</label>
-    <span th:text="${#strings.defaultString(#temporals.format(member.createdAt, 'yyyy-MM-dd HH:mm'), '')}"></span>
+<div class="form-group col-lg-4 mb-3" style="text-align: center; margin: 0 auto; font-family: 'Arial'; color: green;">
+    <label for="createdAt">생성일:</label>
+    <input type="text" id="createdAt" name="createdAt" class="form-control" style="text-align: center;" th:value="${#strings.defaultString(#temporals.format(member.createdAt, 'yyyy-MM-dd HH:mm'), '')}" readOnly required>
 </div>
+
+<br>
 <!-- 버튼 -->
-<div class="mb-3">
-    <button><a href="/main">Back to Main</a></button>
-</div>
-<div class="mb-3">
-    <button><a href="/memberUpdate">Edit Member</a></button>
-</div>
-<div class="mb-3">
-    <button onclick="confirmDelete()">Delete Member</button>
+<div class="row justify-content-center">
+    <!-- 메인 버튼 -->
+    <div class="col-12 col-md-auto">
+        <a href="/main"><button type="submit" class="btn btn-primary">메인</button></a>
+    </div>
+    <!-- 회원정보 수정 버튼 -->
+    <div class="col-12 col-md-auto">
+        <a href="/memberUpdate"><button type="submit" class="btn btn-success">회원정보 수정</button></a>
+    </div>
+    <!-- 회원 탈퇴 버튼 -->
+    <div class="col-12 col-md-auto">
+        <button onclick="confirmDelete()" type="submit" class="btn btn-danger">회원 탈퇴</button>
+    </div>
 </div>
 
 <script>

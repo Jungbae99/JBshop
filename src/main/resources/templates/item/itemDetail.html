@@ -4,14 +4,16 @@
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
+<head th:replace="fragments/header :: header">
 <body>
+<div th:replace="fragments/bodyHeader :: bodyHeader"/>
     <h1>Item Detail</h1>
         <p>NAME: <span th:text="${item.itemName}"></span></p>
         <p>TEXT: <span th:text="${item.itemText}"></span></p>
         <p>PRICE: <span th:text="${item.itemPrice}"></span></p>
         <p>SAVES VOLUME: <span th:text="${item.itemCount}"></span></p>
         <p>STOCK: <span th:text="${item.itemStock}"></span></p>
-        <p>IMAGE: <img th:src="'data:image/png;base64,' + ${item.itemImg}" height="100" width="100"/></p>
+        <p>IMAGE: <img class="img-fluid"  th:src="'data:image/png;base64,' + ${item.itemImg}" style="width: 33.33%;"/></p>
 
 
     <a th:if="${session.memberId != null && session.memberId == 1}" th:href="@{/admin/updateItem(itemId=${item.id})}"

@@ -28,8 +28,10 @@
         <label for="imageFile">Image File:</label>
         <input type="file" id="imageFile" name="imageFile">
     </div>
-    <div>
-        <button type="submit">Add Item</button>
+
+    <div class="input-group mb-3">
+        <button class="btn btn-outline-secondary" type="button" id="inputGroupFileAddon03">Button</button>
+        <input type="file" class="form-control" id="inputGroupFile03" aria-describedby="inputGroupFileAddon03" aria-label="Upload">
     </div>
     <label for="category">Category:</label>
     <select id="category" name="category">
@@ -46,6 +48,11 @@
         <option value="SALE">SALE</option>
         <option value="CELEBRITY">CELEBRITY</option>
     </select>
+
+    <div>
+        <button type="submit">Add Item</button>
+    </div>
+
     <button><a href="/main">Back to Main</a></button>
 
 </form>

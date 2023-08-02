@@ -1,14 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Confirm Delete</title>
+    <meta charset="UTF-8">
+    <title>Confirm Delete</title>
 </head>
+<head th:replace="fragments/header :: header">
 <body>
-<h1>Confirm Delete</h1>
+<div th:replace="fragments/bodyHeader :: bodyHeader"/>
+
+<p class="fs-1" style="font-family: '돋움'; text-align: center; color: green; ">비밀번호 확인</p>
 <form action="/deleteMember" method="post">
-  <input type="password" name="password" placeholder="Enter password" required>
-  <button type="submit">Confirm</button>
+    <div class="form-group col-lg-4"
+         style="text-align: center; margin: 0 auto; font-family: 'Arial'; color: green;">
+        <label for="phoneNumber">password:</label>
+        <input type="text" id="phoneNumber" name="phoneNumber" class="form-control"
+               placeholder="Enter password"><br>
+    </div>
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-auto" >
+        <button type="submit" class="btn btn-danger">회원 탈퇴</button>
+    </div>
+  </div>
 </form>
 </body>
 </html>
