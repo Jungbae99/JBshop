@@ -4,54 +4,6 @@
     <meta charset="UTF-8">
     <title>Join</title>
     <head th:replace="fragments/header :: header">
-        <style>
-            /* Center align the form */
-            body {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                height: 100vh;
-                margin: 0;
-            }
-
-            .container {
-                width: 400px;
-                padding: 20px;
-                border: 1px solid #ccc;
-                border-radius: 5px;
-            }
-
-            label {
-                display: block;
-                font-weight: bold;
-            }
-
-            input[type="text"],
-            input[type="email"],
-            input[type="password"] {
-                width: 100%;
-                padding: 8px;
-                border: 1px solid #ccc;
-                border-radius: 5px;
-            }
-
-            input[type="button"],
-            button {
-                padding: 8px 15px;
-                background-color: #007bff;
-                color: #fff;
-                border: none;
-                border-radius: 5px;
-                cursor: pointer;
-            }
-
-            .btn-info {
-                background-color: #007bff;
-            }
-        </style>
-    </head>
-
-
 <body>
 
 <div th:if="${errorMessage}" class="alert alert-danger">
@@ -116,6 +68,9 @@
         <br>
     </form>
 </div>
+
+
+
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
     function sample6_execDaumPostcode() {
@@ -166,8 +121,5 @@
         }).open();
     }
 </script>
-
-
-</form>
 </body>
 </html>
