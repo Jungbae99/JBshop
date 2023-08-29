@@ -16,6 +16,8 @@
 
 
 <body>
+<div th:replace="fragments/bodyHeader :: bodyHeader" />
+
   <script>
     function showMessage(message) {
       alert(message);
@@ -32,7 +34,6 @@
     showMessage([[${message}]]);
   </script>
 
-  <div th:replace="fragments/bodyHeader :: bodyHeader" />
 
   <h1></h1>
   <br><br><br>

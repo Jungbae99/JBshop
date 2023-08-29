@@ -16,6 +16,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.Collection;
 import java.util.List;
 
 @Entity @Getter
@@ -53,7 +54,6 @@ public class Item extends BaseAuditingListener{
         if (itemImgs.isEmpty()) {
             return null;
         }
-
         ItemImg itemImg = itemImgs.get(0);
         String imagePath = itemImg.getUrl();
 
@@ -62,13 +62,12 @@ public class Item extends BaseAuditingListener{
             String base64Image = Base64.getEncoder().encodeToString(imageBytes);
             return base64Image;
         } catch (IOException e) {
-            throw new RuntimeException("이미지를 Base64로 인코딩하는 동안 오류가 발생했습니다.", e);
+            throw new RuntimeException("이미지를 불러오는 동안 오류가 발생했습니다.", e);
         }
     }
 
     @Builder
     public Item(String name, String text, int price, int stock, Category category) {
-
         this.itemName = name;
         this.itemText = text;
         this.itemPrice = price;
@@ -92,6 +91,7 @@ public class Item extends BaseAuditingListener{
         this.itemStock = itemStock;
     }
 
+    // 재고 감소
     public void removeStock(int count) {
         int restStock = this.itemStock - count;
         if (restStock < 0) {
@@ -100,11 +100,17 @@ public class Item extends BaseAuditingListener{
         this.itemStock = restStock;
     }
 
+    // 판매수량 증가
+    public void updateCount(int count) {
+        this.itemCount += count;
+    }
+
     public void deleteItem() {
         for (ItemImg itemImg : itemImgs) {
             itemImg.deleteItemImg();
         }
         super.delete();
     }
+
 
 }

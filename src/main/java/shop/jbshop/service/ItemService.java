@@ -34,10 +34,6 @@ import java.util.UUID;
 public class ItemService {
 
     private final ItemRepository itemRepository;
-    private final ItemImgRepository itemImgRepository;
-    private final MemberRepository memberRepository;
-    private final CartRepository cartRepository;
-
     /**
      * TODO: test
      */
@@ -66,7 +62,6 @@ public class ItemService {
         itemImg.addItemImg(item);
 
         itemRepository.save(item);
-
     }
 
     private String saveImage(MultipartFile imageFile, String savedName) {

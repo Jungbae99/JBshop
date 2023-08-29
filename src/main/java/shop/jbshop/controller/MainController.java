@@ -145,7 +145,7 @@ public class MainController {
             return "join";
         }
         try {
-            Long memberId = memberService.joinMember(dto);
+            memberService.joinMember(dto);
             return "redirect:login";
         } catch (DuplicateKeyException e) {
             throw e;

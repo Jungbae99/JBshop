@@ -2,15 +2,10 @@ package shop.jbshop.controller;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.Banner;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import shop.jbshop.dto.request.AddCartRequestDto;
-import shop.jbshop.dto.request.DirectOrderRequestDto;
-import shop.jbshop.dto.response.AllItemResponseDto;
 import shop.jbshop.dto.response.CartResponseDto;
 import shop.jbshop.dto.response.ItemResponseDto;
 import shop.jbshop.service.CartService;
@@ -18,7 +13,6 @@ import shop.jbshop.service.ItemService;
 import shop.jbshop.service.MemberService;
 import shop.jbshop.service.OrderService;
 
-import java.util.Arrays;
 import java.util.List;
 
 @Controller

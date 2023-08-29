@@ -26,7 +26,6 @@ import java.util.Optional;
 public class MemberService {
 
     private final MemberRepository memberRepository;
-//    private final PasswordEncoder passwordEncoder;
 
     /**
      * direct 회원가입
@@ -54,7 +53,7 @@ public class MemberService {
     }
 
     /**
-     * kakao 회원가입
+     * Oauth 회원가입
      */
     public Long joinMemberByOauth(KakaoDto dto) {
         String randomUsername = RandomStringUtils.randomAlphanumeric(10);

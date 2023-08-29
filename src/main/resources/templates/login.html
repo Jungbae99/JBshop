@@ -14,14 +14,14 @@
 <div th:replace="fragments/bodyHeader :: bodyHeader"/>
 
 <div text- class="container row"
-     style="text-align: center; display: flex; justify-content: center; align-items: center; height: 80vh;">
+     style="text-align: center; align-items: center; height: 80vh;">
     <p class="fs-1" style="margin-bottom: -15%; font-family: '돋움'; color: green; ">로그인</p>
     <form action="/login" method="post">
-        <div class="form-group col-lg-4" style="text-align: center; margin: 0 auto; font-family: 'Arial'; color: green;">
+        <div class="form-group col-lg-4" style="margin: 0 auto; font-family: 'Arial'; color: green;">
             <label for="email">Email:</label>
             <input type="email" id="email" name="email" class="form-control" required>
         </div>
-        <div class="form-group col-lg-4" style="text-align: center; margin: 0 auto; font-family: 'Arial'; color: green;">
+        <div class="form-group col-lg-4" style="margin: 0 auto; font-family: 'Arial'; color: green;">
             <label for="password">Password:</label>
             <input type="password" id="password" name="password" class="form-control" required>
         </div>

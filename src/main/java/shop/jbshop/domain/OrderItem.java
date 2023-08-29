@@ -29,6 +29,7 @@ public class OrderItem extends BaseAuditingListener {
         orderItem.item = item;
         orderItem.price = price;
         orderItem.count = count;
+        item.updateCount(count);
         item.removeStock(count);
         return orderItem;
     }

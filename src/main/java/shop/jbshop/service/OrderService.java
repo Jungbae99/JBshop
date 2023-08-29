@@ -36,7 +36,6 @@ public class OrderService {
         Delivery delivery = Delivery.setAddress(member.getAddress());
 
         OrderItem orderItem = OrderItem.createOrderItem(item, item.getItemPrice(), count);
-        item.removeStock(count);
 
         Order order = createOrder(member, delivery, orderItem);
         orderRepository.save(order);

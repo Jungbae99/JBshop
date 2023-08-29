@@ -2,34 +2,51 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+    <title>Member Update</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <head th:replace="fragments/header :: header">
+
+    </head>
 <body>
-    <h1>Member Update</h1>
+<div th:replace="fragments/bodyHeader :: bodyHeader"/>
+<div class="container text-center">
+    <h1 class="display-4" style="margin: 5%">회원 정보 수정</h1>
 
-    <form method="post" action="/memberUpdate">
-        <input type="hidden" name="email" th:value="${member.email}" />
-
-        <input type="hidden" name="username" th:value="${member.username}"/>
-
-        <input type="hidden" name="grade" th:value="${member.grade}"/><br>
-
-        <label for="phoneNumber">Phone Number:</label>
-        <input type="text" id="phoneNumber" name="phoneNumber" th:value="${member.phoneNumber}" required /><br>
-
-        <label for="city">city:</label>
-        <input type="text" id="city" name="city" th:value="${member.address?.city}" required /><br>
-
-        <label for="street">street:</label>
-        <input type="text" id="street" name="street" th:value="${member.address?.street}" required /><br>
-
-        <label for="zipcode">zipcode:</label>
-        <input type="text" id="zipcode" name="zipcode" th:value="${member.address?.zipcode}" required /><br>
-
-        <button type="submit">Update</button>
+    <form method="post" action="/memberUpdate" class="row justify-content-center">
+        <div class="mb-3">
+            <input type="hidden" name="email" th:value="${member.email}" />
+            <input type="hidden" name="username" th:value="${member.username}"/>
+            <input type="hidden" name="grade" th:value="${member.grade}"/>
+        </div>
+        <div class="mb-3 col-md-6">
+            <label class="form-label">Phone Number:</label>
+            <input type="text" id="phoneNumber" name="phoneNumber" th:value="${member.phoneNumber}" class="form-control" required />
+        </div>
+        <div class="mb-3 col-md-6">
+            <label class="form-label">City:</label>
+            <input type="text" id="city" name="city" th:value="${member.address?.city}" class="form-control" required />
+        </div>
+        <div class="mb-3 col-md-6">
+            <label class="form-label">Street:</label>
+            <input type="text" id="street" name="street" th:value="${member.address?.street}" class="form-control" required />
+        </div>
+        <div class="mb-3 col-md-6">
+            <label class="form-label">Zipcode:</label>
+            <input type="text" id="zipcode" name="zipcode" th:value="${member.address?.zipcode}" class="form-control" required />
+        </div>
+        <div class="mb-3 col-md-6">
+            <button type="submit" class="btn btn-primary">수정</button>
+        </div>
     </form>
 
-    <button><a href="/main">Back to Main</a></button>
-    <button><a href="/memberDetail">Back to Member Detail</a></button>
+    <div class="row justify-content-center">
+        <div class="mb-3 col-md-6">
+            <a href="/main" class="btn btn-secondary">메인으로 돌아가기</a>
+        </div>
+        <div class="mb-3 col-md-6">
+            <a href="/memberDetail" class="btn btn-secondary">회원 상세 정보로 돌아가기</a>
+        </div>
+    </div>
+</div>
 </body>
 </html>

@@ -17,14 +17,12 @@ import shop.jbshop.dto.response.ItemUpdateResponseDto;
 import shop.jbshop.service.ItemService;
 import shop.jbshop.service.KakaoService;
 
-@Slf4j
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/admin")
 public class AdminController {
 
     private final ItemService itemService;
-
 
     @GetMapping("/addItem")
     public String addItem() {
@@ -33,10 +31,6 @@ public class AdminController {
 
     @PostMapping("/addItem")
     public String addItem(@Validated ItemSaveRequestDto dto) {
-        String category = dto.getCategory();
-        System.out.println("category = " + category);
-        Category cate = Category.valueOf(dto.getCategory());
-        System.out.println("cate = " + cate);
         itemService.saveItem(dto);
         return "redirect:/main";
     }
@@ -62,9 +56,5 @@ public class AdminController {
         itemService.deleteItem(itemId);
         return "redirect:/main";
     }
-
-
-
-
 }
 

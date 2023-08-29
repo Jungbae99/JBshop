@@ -3,55 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <head th:replace="fragments/header :: header">
 </head>
-<head th:replace="fragments/header :: header">
 
 
 <body>
-
 <div th:replace="fragments/bodyHeader :: bodyHeader"/>
 
-
-<h1>Member Detail</h1>
-<div class="mb-3">
-    <label >Email:</label>
-    <span th:text="${#strings.defaultString(member.email, '')}"></span>
-</div>
-<div class="mb-3">
-    <label>Username:</label>
-    <span th:text="${#strings.defaultString(member.username, '')}"></span>
-</div>
-<div class="mb-3">
-    <label>Phone Number:</label>
-    <span th:text="${#strings.defaultString(member.phoneNumber, '')}"></span>
-</div>
-<div class="mb-3">
-    <label>Address:</label>
-    <div class="address-container">
-        <span th:text="${#strings.defaultString(member.address?.city, '')}"></span>,
-        <span th:text="${#strings.defaultString(member.address?.street, '')}"></span>,
-        <span th:text="${#strings.defaultString(member.address?.zipcode, '')}"></span>
+<div class="container text-center">
+    <h3 style="margin:5%" class="display-4">회원정보</h3>
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label class="form-label">Email: <span th:text="${member.email}" class="form-control-plaintext"></span></label>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Username: <span th:text="${member.username}" class="form-control-plaintext"></span></label>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Phone Number: <span th:text="${member.phoneNumber}" class="form-control-plaintext"></span></label>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Address: <span th:text="${member.address.city + ', ' + member.address?.street + ', ' + member.address?.zipcode}" class="form-control-plaintext"></span></label>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Grade: <span th:text="${member.grade}" class="form-control-plaintext"></span></label>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Created At: <span th:text="${(#temporals.format(member.createdAt, 'yyyy-MM-dd HH:mm'))}" class="form-control-plaintext"></span></label>
+            </div>
+        </div>
+    </div>
+    <!-- 버튼 -->
+    <div class="row justify-content-center">
+        <div class="mb-3">
+            <a href="/main" class="btn btn-secondary">메인으로 돌아가기</a>
+        </div>
+        <div class="mb-3">
+            <a href="/memberUpdate" class="btn btn-primary">회원 정보 수정</a>
+        </div>
+        <div class="mb-3">
+            <button onclick="confirmDelete()" class="btn btn-danger">회원 탈퇴</button>
+        </div>
     </div>
 </div>
-<div class="mb-3">
-    <label>Grade:</label>
-    <span th:text="${#strings.defaultString(member.grade, '')}"></span>
-</div>
-<div class="mb-3">
-    <label>Created At:</label>
-    <span th:text="${#strings.defaultString(#temporals.format(member.createdAt, 'yyyy-MM-dd HH:mm'), '')}"></span>
-</div>
-<!-- 버튼 -->
-<div class="mb-3">
-    <button><a href="/main">Back to Main</a></button>
-</div>
-<div class="mb-3">
-    <button><a href="/memberUpdate">Edit Member</a></button>
-</div>
-<div class="mb-3">
-    <button onclick="confirmDelete()">Delete Member</button>
-</div>
-
 <script>
     function confirmDelete() {
         if (confirm("회원을 탈퇴하시겠습니까?")) {

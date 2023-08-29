@@ -3,51 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-</head>
-<body>
-<title>Add Item</title>
-<h1>Add Item</h1>
-<form action="/admin/addItem" method="post" enctype="multipart/form-data">
-    <div>
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name">
-    </div>
-    <div>
-        <label for="text">Text:</label>
-        <textarea id="text" name="text"></textarea>
-    </div>
-    <div>
-        <label for="price">Price:</label>
-        <input type="number" id="price" name="price">
-    </div>
-    <div>
-        <label for="stock">Stock:</label>
-        <input type="number" id="stock" name="stock">
-    </div>
-    <div>
-        <label for="imageFile">Image File:</label>
-        <input type="file" id="imageFile" name="imageFile">
-    </div>
-    <div>
-        <button type="submit">Add Item</button>
-    </div>
-    <label for="category">Category:</label>
-    <select id="category" name="category">
-        <option value="NEW">NEW</option>
-        <option value="DRESS">DRESS</option>
-        <option value="OUTER">OUTER</option>
-        <option value="BLOUSE">BLOUSE</option>
-        <option value="TEE">TEE</option>
-        <option value="KNIT">KNIT</option>
-        <option value="BOTTOM">BOTTOM</option>
-        <option value="SHOES">SHOES</option>
-        <option value="ACC">ACC</option>
-        <option value="CRUISE">CRUISE</option>
-        <option value="SALE">SALE</option>
-        <option value="CELEBRITY">CELEBRITY</option>
-    </select>
-    <button><a href="/main">Back to Main</a></button>
+    <head th:replace="fragments/header :: header"></head>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
 
-</form>
+<style>
+    .container {
+        width: 70%;
+        padding: 20px;
+        margin-top: 5%;
+        text-align: center;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    label {
+        display: block;
+        font-weight: bold;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    textarea,
+    select {
+        width: 50%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    button {
+        padding: 8px 15px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-bottom: 20px;
+    }
+</style>
+
+
+<body>
+<div th:replace="fragments/bodyHeader :: bodyHeader"/>
+<div class="container">
+    <h1 class="fs-1" style="margin-bottom: 5%; font-family: '돋움'; color: green;">Add Item</h1>
+    <form th:action="@{/admin/addItem}" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name">
+        </div>
+        <div class="form-group">
+            <label for="text">Text:</label>
+            <textarea id="text" name="text"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="price">Price:</label>
+            <input type="number" id="price" name="price">
+        </div>
+        <div class="form-group">
+            <label for="stock">Stock:</label>
+            <input type="number" id="stock" name="stock">
+        </div>
+        <div class="form-group">
+            <label for="imageFile">Image File:</label>
+            <input type="file" id="imageFile" name="imageFile">
+        </div>
+        <div class="form-group">
+            <label for="category">Category:</label>
+            <select id="category" name="category">
+                <option value="NEW">NEW</option>
+                <option value="DRESS">DRESS</option>
+                <option value="OUTER">OUTER</option>
+                <option value="BLOUSE">BLOUSE</option>
+                <option value="TEE">TEE</option>
+                <option value="KNIT">KNIT</option>
+                <option value="BOTTOM">BOTTOM</option>
+                <option value="SHOES">SHOES</option>
+                <option value="ACC">ACC</option>
+                <option value="CRUISE">CRUISE</option>
+                <option value="SALE">SALE</option>
+                <option value="CELEBRITY">CELEBRITY</option>
+            </select>
+        </div>
+        <button class="btn btn-primary"><a href="/main" style="color: white; text-decoration: none;">뒤로가기</a></button>
+        <div class="form-group">
+            <button type="submit" class="btn btn-success">상품등록</button>
+        </div>
+    </form>
+</div>
 </body>
 </html>
